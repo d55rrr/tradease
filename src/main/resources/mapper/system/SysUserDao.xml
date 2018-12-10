@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yh.tradease.system.dao.SysUserDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.yh.tradease.system.entity.SysUser" id="userMap">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="account" column="account"/>
+        <result property="password" column="password"/>
+        <result property="phone" column="phone"/>
+        <result property="sex" column="sex"/>
+        <result property="occupy" column="occupy"/>
+        <result property="flag" column="flag"/>
+        <result property="editPass" column="edit_pass"/>
+        <result property="cdate" column="cdate"/>
+        <result property="mdate" column="mdate"/>
+    </resultMap>
+
+
+	<select id="queryUserList"  resultMap="userMap">
+		select * from sys_user
+	</select>	
+	<insert id="addUser" parameterType="com.yh.tradease.system.entity.SysUser">
+		insert into sys_user
+		(
+			`id`, 
+			`user_name`, 
+			`account`, 
+			`password`,
+			`phone`,
+			`sex`,
+			`occupy`,
+			`edit_pass`,
+			`flag`,
+			`cdate`,
+			`mdate`
+			
+		)
+		values
+		(
+			#{id}, 
+			#{userName}, 
+			#{account}, 
+			#{password},
+			#{phone},
+			#{sex},
+			#{occupy},
+			#{editPass},
+			#{flag},
+			#{cdate},
+			#{mdate}
+			
+		)
+	</insert>
+	<update id="updateUser" parameterType="com.yh.tradease.system.entity.SysMenu">
+		update sys_user
+		<set>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="account != null">`account` = #{account}, </if>
+			<if test="password != null">`password` = #{password},</if>
+			<if test="phone != null">`phone` = #{phone},</if>
+			<if test="sex != null">`sex` = #{sex},</if>
+			<if test="occupy != null">`occupy` = #{occupy},</if>
+			<if test="editPass != null">`edit_pass` = #{editPass},</if>
+			<if test="flag != null">`flag` = #{flag},</if>
+			<if test="cdate != null">`cdate` = #{cdate},</if>
+			<if test="mdate != null">`mdate` = #{mdate}</if>
+		</set>
+		where id = #{id}
+	</update>
+	<delete id="deleteUser">
+		delete from sys_user where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	
+</mapper>
