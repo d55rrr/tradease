@@ -2,6 +2,7 @@ package com.yh.tradease.system.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class SysMenu implements Serializable{
 
@@ -14,15 +15,15 @@ public class SysMenu implements Serializable{
 	
 	private Integer id;
 	
-	private String menuName;
+	private String name;
 	
-	private String menuType;
+	private String type;
 	
 	private Integer pid;
 	
 	private String url;
 	
-	private Integer order;
+	private Integer orderNum;
 	
 	private Integer isEnd;
 	
@@ -31,6 +32,8 @@ public class SysMenu implements Serializable{
 	private Date cdate;
 	
 	private Date mdate;
+	
+	private List<SysMenu> children;
 
 	public Integer getId() {
 		return id;
@@ -40,21 +43,6 @@ public class SysMenu implements Serializable{
 		this.id = id;
 	}
 
-	public String getMenuName() {
-		return menuName;
-	}
-
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
-	}
-
-	public String getMenuType() {
-		return menuType;
-	}
-
-	public void setMenuType(String menuType) {
-		this.menuType = menuType;
-	}
 
 	public Integer getPid() {
 		return pid;
@@ -72,12 +60,30 @@ public class SysMenu implements Serializable{
 		this.url = url;
 	}
 
-	public Integer getOrder() {
-		return order;
+	
+
+	public String getName() {
+		return name;
 	}
 
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Integer getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
 	}
 
 	public Integer getIsEnd() {
@@ -111,5 +117,16 @@ public class SysMenu implements Serializable{
 	public void setMdate(Date mdate) {
 		this.mdate = mdate;
 	}
+
+	public List<SysMenu> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<SysMenu> children) {
+		this.children = children;
+	}
+
+	
+	
 	
 }

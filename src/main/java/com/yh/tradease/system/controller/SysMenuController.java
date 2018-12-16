@@ -106,6 +106,16 @@ public class SysMenuController {
 		
 		return gm;
 	}
+	@RequestMapping("/menuTree")
+	@ResponseBody
+	public ResponseData menuTree(Integer pid){
+		if(pid==null){
+			pid = 0;
+		}
+    	List<SysMenu> tree = sysMenuService.findTree(pid);
+		
+		return new ResponseData(tree);
+	}
 	/**
 	 * 
 	 * @Title: menus
@@ -125,5 +135,6 @@ public class SysMenuController {
 		return new ResponseData(menus);
 		
 	}
+	
 
 }

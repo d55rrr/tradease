@@ -14,9 +14,9 @@ public class ResponseData<T> {
 	
 	private Pager<T> page;
 	
-	public static final ResponseData success = new ResponseData(0);
+	private static final ResponseData success = new ResponseData(0);
 	
-	public static final ResponseData error = new ResponseData(-1);
+	private static final ResponseData error = new ResponseData(-1);
 
 
 

@@ -54,5 +54,10 @@ public class SysMenuServiceImpl implements SysMenuService{
 		
 		return sysMenuDao.queryMenu(id);
 	}
+	@Override
+	public List<SysMenu> findTree(Integer id) {
+
+		return sysMenuDao.findTree(id);
+	}
 
 }

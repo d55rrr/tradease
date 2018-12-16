@@ -6,17 +6,30 @@
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.yh.tradease.system.entity.SysMenu" id="menuMap">
         <result property="id" column="id"/>
-        <result property="menuName" column="menu_name"/>
-        <result property="menuType" column="menu_type"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
         <result property="pid" column="pid"/>
         <result property="url" column="url"/>
-        <result property="order" column="order"/>
+        <result property="orderNum" column="order_num"/>
         <result property="isEnd" column="is_end"/>
         <result property="icon" column="icon"/>
         <result property="cdate" column="cdate"/>
         <result property="mdate" column="mdate"/>
     </resultMap>
-
+	<resultMap type="com.yh.tradease.system.entity.SysMenu" id="menuTree">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="pid" column="pid"/>
+        <result property="url" column="url"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="isEnd" column="is_end"/>
+        <result property="icon" column="icon"/>
+        <result property="cdate" column="cdate"/>
+        <result property="mdate" column="mdate"/>
+        <collection property="children" select="findTree" column="id">     
+        </collection>
+    </resultMap>
 
 	<select id="getByGroupId"  parameterType="int" resultMap="menuMap">
 		select * from sys_menu sm inner join (select menu_id from sys_group_menu where group_id = #{groupId} ) sgm on  sm.id= sgm.menu_id
@@ -33,11 +46,11 @@
 		insert into sys_menu
 		(
 			`id`, 
-			`menu_name`, 
-			`menu_type`, 
+			`name`, 
+			`type`, 
 			`pid`,
 			`url`,
-			`order`,
+			`order_num`,
 			`is_end`,
 			`icon`,
 			`cdate`,
@@ -47,11 +60,11 @@
 		values
 		(
 			#{id}, 
-			#{menuName}, 
-			#{menuType}, 
+			#{name}, 
+			#{type}, 
 			#{pid},
 			#{url},
-			#{order},
+			#{orderNum},
 			#{isEnd},
 			#{icon},
 			#{cdate},
@@ -62,11 +75,11 @@
 	<update id="update" parameterType="com.yh.tradease.system.entity.SysMenu">
 		update sys_menu 
 		<set>
-			<if test="menuName != null">`menu_name` = #{menuName}, </if>
-			<if test="menuType != null">`menu_type` = #{menuType}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="type != null">`type` = #{type}, </if>
 			<if test="pid != null">`pid` = #{pid},</if>
 			<if test="url != null">`url` = #{url},</if>
-			<if test="order != null">`order` = #{order},</if>
+			<if test="orderNum != null">`order_num` = #{orderNum},</if>
 			<if test="isEnd != null">`is_end` = #{isEnd},</if>
 			<if test="icon != null">`icon` = #{icon},</if>
 			<if test="cdate != null">`cdate` = #{cdate},</if>
@@ -78,12 +91,15 @@
 		delete from sys_menu where id = #{value}
 	</delete>
 	<select id="queryMenus" parameterType="int" resultMap="menuMap">
-		select * from sys_menu where menu_type=#{menuType}
+		select * from sys_menu where type=#{type}
 	</select>
 	<select id="queryAllMenu" resultMap="menuMap"> 
 		select * from sys_menu
 	</select>
 	<select id="queryMenu" resultMap="menuMap" parameterType="int">
 		select * from sys_menu where id=#{id}
+	</select>
+	<select id="findTree" resultMap="menuTree" parameterType="int">
+		select * from sys_menu where pid = #{id}
 	</select>
 </mapper>

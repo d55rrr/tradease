@@ -4,10 +4,10 @@
   <context id="context1">
   	<plugin type="com.yh.tradease.mybatis.plugins.MySQLLimitPlugin"></plugin>
     <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/tradease" driverClass="com.mysql.jdbc.Driver" password="root" userId="root" />
-    <javaModelGenerator targetPackage="com.yh.tradease.sales.entity" targetProject="tradease" />
-    <sqlMapGenerator targetPackage="com.yh.tradease.sales.entity" targetProject="tradease" />
-    <javaClientGenerator targetPackage="com.yh.tradease.sales.dao" targetProject="tradease" type="XMLMAPPER" />
-    <table schema="tradease" tableName="sale_record" >
+    <javaModelGenerator targetPackage="com.yh.tradease.serve.entity" targetProject="tradease" />
+    <sqlMapGenerator targetPackage="com.yh.tradease.serve.entity" targetProject="tradease" />
+    <javaClientGenerator targetPackage="com.yh.tradease.serve.dao" targetProject="tradease" type="XMLMAPPER" />
+    <table tableName="product_install" >
       <!-- <columnOverride column="???" property="???" /> -->
     </table>
   </context>

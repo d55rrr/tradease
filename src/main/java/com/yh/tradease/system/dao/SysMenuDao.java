@@ -46,5 +46,10 @@ public interface SysMenuDao {
 	 * 2018年3月18日 下午3:36:44
 	 */
 	SysMenu queryMenu(Integer id);
+	/**
+	 * 查询菜单树
+	 * @return
+	 */
+	List<SysMenu> findTree(Integer id);
 
 }
