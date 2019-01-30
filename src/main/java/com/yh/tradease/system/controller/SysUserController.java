@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yh.tradease.common.Pager;
 import com.yh.tradease.common.ResponseData;
 import com.yh.tradease.system.entity.SysUser;
 import com.yh.tradease.system.service.SysUserService;
@@ -43,11 +44,11 @@ public class SysUserController {
 	 */
 	@RequestMapping("/userList")
 	@ResponseBody
-	public ResponseData queryUserList(){
+	public ResponseData queryUserList(SysUserVo user,Pager page){
 		
-		List<SysUser> users = sysUserService.queryUserList();
+		Pager result = sysUserService.queryUserList(user,page);
 		
-		return new ResponseData(users);
+		return new ResponseData(result);
 	}
 	/**
 	 * 

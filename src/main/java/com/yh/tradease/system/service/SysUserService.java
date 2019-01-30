@@ -2,6 +2,7 @@ package com.yh.tradease.system.service;
 
 import java.util.List;
 
+import com.yh.tradease.common.Pager;
 import com.yh.tradease.system.entity.SysUser;
 import com.yh.tradease.system.vo.SysUserVo;
 
@@ -14,7 +15,7 @@ public interface SysUserService {
 	 * @Return List<SysUser>
 	 * 2018年3月18日 下午6:07:22
 	 */
-	List<SysUser> queryUserList();
+	Pager queryUserList(SysUserVo user,Pager page);
 	/**
 	 * 
 	 * @Title: addUser

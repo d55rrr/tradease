@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yh.tradease.common.Pager;
 import com.yh.tradease.system.dao.SysUserDao;
 import com.yh.tradease.system.entity.SysUser;
 import com.yh.tradease.system.service.SysUserService;
@@ -17,9 +18,16 @@ public class SysUserServiceImpl implements SysUserService{
 	@Autowired
 	private SysUserDao sysUserDao;
 	@Override
-	public List<SysUser> queryUserList() {
+	public Pager queryUserList(SysUserVo user,Pager page) {
+		SysUser param = new SysUser();
+		BeanUtils.copyProperties(user, param);
+		page.setParam(param);
+		List<SysUser> users = sysUserDao.queryUserList(page);
+		int total = sysUserDao.queryCount(param);
+		page.setTotal(total);
+		page.setDatas(users);
+		return page;
 		
-		return sysUserDao.queryUserList();
 	}
 	@Override
 	public int addUser(SysUserVo user) {

@@ -91,7 +91,7 @@
 		delete from sys_menu where id = #{value}
 	</delete>
 	<select id="queryMenus" parameterType="int" resultMap="menuMap">
-		select * from sys_menu where type=#{type}
+		select * from sys_menu where type=#{type} order by order_num asc
 	</select>
 	<select id="queryAllMenu" resultMap="menuMap"> 
 		select * from sys_menu

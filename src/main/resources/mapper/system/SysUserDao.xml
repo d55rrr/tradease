@@ -19,9 +19,31 @@
     </resultMap>
 
 
-	<select id="queryUserList"  resultMap="userMap">
-		select * from sys_user
+	<select id="queryUserList"  resultMap="userMap"  parameterType="com.yh.tradease.common.Pager">
+		select * from sys_user where 1=1 
+			<if test="param.userName != null and param.userName != ''">and `user_name` = #{param.userName} </if>
+			<if test="param.account != null and param.account != ''">and `account` = #{param.account} </if>
+			<if test="param.phone != null and param.phone != '' ">and `phone` = #{param.phone}</if>
+			<if test="param.sex != null">and `sex` = #{param.sex}</if>
+			<if test="param.occupy != null">and `occupy` = #{param.occupy}</if>
+			<if test="param.editPass != null">and `edit_pass` = #{param.editPass}</if>
+			<if test="param.flag != null">and `flag` = #{param.flag}</if>
+			<if test="param.cdate != null">and `cdate` = #{param.cdate}</if>
+			<if test="param.mdate != null">and `mdate` = #{param.mdate}</if> 
+			 limit #{offset},#{limit}
 	</select>	
+	<select id="queryCount" resultType="int">
+		select count(*) from sys_user where 1=1
+		<if test="userName != null and userName != ''">and `user_name` = #{userName} </if>
+			<if test="account != null and account != ''">and `account` = #{account} </if>
+			<if test="phone != null and phone != '' ">and `phone` = #{phone}</if>
+			<if test="sex != null">and `sex` = #{sex}</if>
+			<if test="occupy != null">and `occupy` = #{occupy}</if>
+			<if test="editPass != null">and `edit_pass` = #{editPass}</if>
+			<if test="flag != null">and `flag` = #{flag}</if>
+			<if test="cdate != null">and `cdate` = #{cdate}</if>
+			<if test="mdate != null">and `mdate` = #{mdate}</if> 
+	</select>
 	<insert id="addUser" parameterType="com.yh.tradease.system.entity.SysUser">
 		insert into sys_user
 		(
@@ -54,7 +76,7 @@
 			
 		)
 	</insert>
-	<update id="updateUser" parameterType="com.yh.tradease.system.entity.SysMenu">
+	<update id="updateUser" parameterType="com.yh.tradease.system.entity.SysUser">
 		update sys_user
 		<set>
 			<if test="userName != null">`user_name` = #{userName}, </if>

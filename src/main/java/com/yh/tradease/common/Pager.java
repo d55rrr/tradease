@@ -1,14 +1,17 @@
 package com.yh.tradease.common;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 /**
  * 翻页对象
  * @author Majestage
  *
  * @param <T>
  */
-public  class Pager<T> implements Serializable{
+public  class Pager<T>  implements Serializable {
 	
 	/**
 	 * 
@@ -23,11 +26,15 @@ public  class Pager<T> implements Serializable{
 	
 	private Integer currentPage;
 	
-	private Integer offset;
+	private Integer offset = 0;
 	
-	private Integer limit;
+	private Integer limit = 10;
 	
 	private List<T> datas;
+	
+	private T param;
+		
+
 	
 
 	public Integer getPageSize() {
@@ -48,6 +55,9 @@ public  class Pager<T> implements Serializable{
 
 	public void setTotal(Integer total) {
 		this.total = total;
+		if(this.pageSize!=null){
+			this.pageCount = (int) Math.ceil(this.total/(double)this.pageSize);
+		}
 	}
 
 	public Integer getPageCount() {
@@ -94,6 +104,15 @@ public  class Pager<T> implements Serializable{
 		this.limit = limit;
 	}
 
+	public T getParam() {
+		return param;
+	}
+
+	public void setParam(T param) {
+		this.param = param;
+	}
+	
+	
 	
 	
 	
