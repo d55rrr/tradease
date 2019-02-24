@@ -32,5 +32,15 @@ public interface SalesService {
 	 * @return
 	 */
 	ResponseData delete(SaleRecord record);
+	/**
+	 * 
+	 * @Title: find   
+	 * @Description: 查询单条订单详细
+	 * @param: @param id
+	 * @param: @return      
+	 * @return: ResponseData      
+	 * @throws
+	 */
+	ResponseData find(Integer id);
 
 }

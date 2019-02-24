@@ -110,6 +110,8 @@ public class Product {
      * @mbg.generated Sun Dec 23 23:11:34 CST 2018
      */
     private Double salePrice;
+    
+    private Double wholesalePrice;
 
     /**
      *
@@ -530,4 +532,13 @@ public class Product {
     public void setFlag(Byte flag) {
         this.flag = flag;
     }
+
+	public Double getWholesalePrice() {
+		return wholesalePrice;
+	}
+
+	public void setWholesalePrice(Double wholesalePrice) {
+		this.wholesalePrice = wholesalePrice;
+	}
+    
 }

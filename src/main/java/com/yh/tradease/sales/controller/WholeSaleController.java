@@ -2,6 +2,7 @@ package com.yh.tradease.sales.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,7 +29,7 @@ public class WholeSaleController {
 	 */
 	@RequestMapping("/insert")
 	@ResponseBody
-	public ResponseData insert(WholesaleRecord record){
+	public ResponseData insert(@RequestBody WholesaleRecord record){
 		
 		return wholeSalesService.insert(record);
 	}
@@ -51,7 +52,7 @@ public class WholeSaleController {
 	 */
 	@RequestMapping("/update")
 	@ResponseBody
-	public ResponseData update(WholesaleRecord record){
+	public ResponseData update(@RequestBody WholesaleRecord record){
 		
 		return wholeSalesService.update(record);
 	}
@@ -66,6 +67,22 @@ public class WholeSaleController {
 	public ResponseData findPage(WholesaleRecord record,Pager page){
 		
 		return wholeSalesService.findPage(record,page);
+	}
+	/**
+	 * 
+	 * @Title: find   
+	 * @Description:查询对象
+	 * @param: @param id
+	 * @param: @return      
+	 * @return: ResponseData      
+	 * @throws
+	 */
+	@RequestMapping("/find")
+	@ResponseBody
+	public ResponseData find(Integer id){
+		
+		return wholeSalesService.find(id);
+
 	}
 	
 	

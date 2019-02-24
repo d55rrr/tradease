@@ -30,5 +30,15 @@ public interface WholeSaleService {
 	 * @return
 	 */
 	ResponseData findPage(WholesaleRecord record, Pager page);
+	/**
+	 * 
+	 * @Title: find   
+	 * @Description: 查询单一对象   
+	 * @param: @param id
+	 * @param: @return      
+	 * @return: ResponseData      
+	 * @throws
+	 */
+	ResponseData find(Integer id);
 
 }

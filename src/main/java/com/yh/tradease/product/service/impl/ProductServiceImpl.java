@@ -11,6 +11,7 @@ import com.yh.tradease.common.ResponseData;
 import com.yh.tradease.product.dao.ProductMapper;
 import com.yh.tradease.product.entity.Product;
 import com.yh.tradease.product.entity.ProductExample;
+import com.yh.tradease.product.entity.ProductExample.Criteria;
 import com.yh.tradease.product.service.ProductService;
 
 @Service
@@ -45,7 +46,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public ResponseData update(Product product) {
 		product.setMdate(new Date());
-		int result = productMapper.insert(product);
+		int result = productMapper.updateByPrimaryKey(product);
 		if(result>0){
 			return ResponseData.success();
 		}else{
@@ -65,6 +66,17 @@ public class ProductServiceImpl implements ProductService{
 		}else{
 			return ResponseData.error();
 		}
+	}
+
+	@Override
+	public ResponseData list(Product product) {
+		ProductExample param = new ProductExample();
+		Criteria criteria = param.createCriteria().andFlagEqualTo((byte) 1);
+		if(product.getType()!=null){
+			criteria.andTypeEqualTo(product.getType());
+		}
+		List<Product> results = productMapper.selectByExample(param);
+		return new ResponseData(results);
 	}
 
 }

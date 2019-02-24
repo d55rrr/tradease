@@ -88,5 +88,20 @@ public class ProductController {
 		
 		return productService.delete(id);
 	}
+	/**
+	 * 
+	 * @Title: list   
+	 * @Description: 查询产品列表 
+	 * @param: @return      
+	 * @return: ResponseData      
+	 * @throws
+	 */
+	@RequestMapping("/list")
+	@ResponseBody
+	public ResponseData list(Product product){
+		
+		return productService.list(product);
+	}
+	
 	
 }

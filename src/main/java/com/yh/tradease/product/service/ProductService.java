@@ -22,5 +22,14 @@ public interface ProductService {
 	ResponseData update(Product product);
 
 	ResponseData delete(Integer id);
+	/**
+	 * 
+	 * @Title: list   
+	 * @Description: 查询产品列表   
+	 * @param: @return      
+	 * @return: ResponseData      
+	 * @throws
+	 */
+	ResponseData list(Product product);
 
 }

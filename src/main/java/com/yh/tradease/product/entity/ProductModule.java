@@ -21,6 +21,8 @@ public class ProductModule {
      * @mbg.generated Mon Dec 24 00:38:05 CST 2018
      */
     private String name;
+    
+    private String label;
 
     /**
      *
@@ -278,6 +280,18 @@ public class ProductModule {
 	}
 
 	public void setModules(List<ProductModule> children) {
+		this.children = children;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public void setChildren(List<ProductModule> children) {
 		this.children = children;
 	}
     

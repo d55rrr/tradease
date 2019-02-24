@@ -30,5 +30,15 @@ public interface InStockService {
 	 * @return
 	 */
 	ResponseData findPage(InStock stock, Pager page);
+	/**
+	 * 
+	 * @Title: find   
+	 * @Description: 查询单个对象
+	 * @param: @param stock
+	 * @param: @return      
+	 * @return: ResponseData      
+	 * @throws
+	 */
+	ResponseData find(Integer id);
 
 }

@@ -3,6 +3,7 @@ package com.yh.tradease.sales.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -40,7 +41,7 @@ public class SalesController {
 	 */
 	@RequestMapping("/insert")
 	@ResponseBody
-	public ResponseData insert(SaleRecord record){
+	public ResponseData insert(@RequestBody SaleRecord record){
 		
 		return salesService.insert(record);
 	}
@@ -51,7 +52,7 @@ public class SalesController {
 	 */
 	@RequestMapping("/update")
 	@ResponseBody
-	public ResponseData update(SaleRecord record){
+	public ResponseData update(@RequestBody SaleRecord record){
 		
 		return salesService.update(record);
 	}
@@ -66,6 +67,21 @@ public class SalesController {
 	public ResponseData delete(SaleRecord record){
 		
 		return salesService.delete(record);
+	}
+	/**
+	 * 
+	 * @Title: find   
+	 * @Description: 查询单条销售信息   
+	 * @param: @param id
+	 * @param: @return      
+	 * @return: ResponseData      
+	 * @throws
+	 */
+	@RequestMapping("/find")
+	@ResponseBody
+	public ResponseData find(Integer id){
+		
+		return salesService.find(id);
 	}
 	
 	

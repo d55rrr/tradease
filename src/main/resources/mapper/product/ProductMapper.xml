@@ -19,6 +19,7 @@
     <result column="duration" jdbcType="DOUBLE" property="duration" />
     <result column="buy_price" jdbcType="DOUBLE" property="buyPrice" />
     <result column="sale_price" jdbcType="DOUBLE" property="salePrice" />
+    <result column="wholesale_price" jdbcType="DOUBLE" property="wholesalePrice" />
     <result column="sale_status" jdbcType="TINYINT" property="saleStatus" />
     <result column="cdate" jdbcType="TIMESTAMP" property="cdate" />
     <result column="mdate" jdbcType="TIMESTAMP" property="mdate" />
@@ -99,7 +100,7 @@
       This element was generated on Sun Dec 23 23:11:34 CST 2018.
     -->
     id, name, type, type_name, brand_name, brand_id, original, weight, code, duration, 
-    buy_price, sale_price, sale_status, cdate, mdate, flag
+    buy_price, sale_price,wholesale_price, sale_status, cdate, mdate, flag
   </sql>
   <select id="selectByExample" parameterType="com.yh.tradease.product.entity.ProductExample" resultMap="BaseResultMap">
     <!--
@@ -168,13 +169,13 @@
     insert into product (id, name, type, 
       type_name, brand_name, brand_id, 
       original, weight, code, 
-      duration, buy_price, sale_price, 
+      duration, buy_price, sale_price, wholesale_price
       sale_status, cdate, mdate, 
       flag)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{typeName,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER}, 
       #{original,jdbcType=VARCHAR}, #{weight,jdbcType=DOUBLE}, #{code,jdbcType=VARCHAR}, 
-      #{duration,jdbcType=DOUBLE}, #{buyPrice,jdbcType=DOUBLE}, #{salePrice,jdbcType=DOUBLE}, 
+      #{duration,jdbcType=DOUBLE}, #{buyPrice,jdbcType=DOUBLE}, #{salePrice,jdbcType=DOUBLE}, #{wholesalePrice,jdbcType=DOUBLE},
       #{saleStatus,jdbcType=TINYINT}, #{cdate,jdbcType=TIMESTAMP}, #{mdate,jdbcType=TIMESTAMP}, 
       #{flag,jdbcType=TINYINT})
   </insert>
@@ -221,6 +222,9 @@
       </if>
       <if test="salePrice != null">
         sale_price,
+      </if>
+      <if test="wholesalePrice != null">
+      	wholesale_price,
       </if>
       <if test="saleStatus != null">
         sale_status,
@@ -271,6 +275,9 @@
       </if>
       <if test="salePrice != null">
         #{salePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="wholesalePrice != null">
+      	#{wholesalePrice,jdbcType=DOUBLE},
       </if>
       <if test="saleStatus != null">
         #{saleStatus,jdbcType=TINYINT},
@@ -338,6 +345,9 @@
       <if test="record.buyPrice != null">
         buy_price = #{record.buyPrice,jdbcType=DOUBLE},
       </if>
+      <if test="record.wholesalePrice != null">
+      	wholesale_price = #{wholesalePrice,jdbcType=DOUBLE},
+      </if>
       <if test="record.salePrice != null">
         sale_price = #{record.salePrice,jdbcType=DOUBLE},
       </if>
@@ -377,6 +387,7 @@
       duration = #{record.duration,jdbcType=DOUBLE},
       buy_price = #{record.buyPrice,jdbcType=DOUBLE},
       sale_price = #{record.salePrice,jdbcType=DOUBLE},
+      wholesale_price = #{record.wholesalePrice,jdbcType=DOUBLE},
       sale_status = #{record.saleStatus,jdbcType=TINYINT},
       cdate = #{record.cdate,jdbcType=TIMESTAMP},
       mdate = #{record.mdate,jdbcType=TIMESTAMP},
@@ -423,6 +434,9 @@
       <if test="buyPrice != null">
         buy_price = #{buyPrice,jdbcType=DOUBLE},
       </if>
+      <if test="wholesalePrice != null">
+      	wholesale_price = #{wholesalePrice,jdbcType=DOUBLE},
+      </if>
       <if test="salePrice != null">
         sale_price = #{salePrice,jdbcType=DOUBLE},
       </if>
@@ -459,6 +473,7 @@
       duration = #{duration,jdbcType=DOUBLE},
       buy_price = #{buyPrice,jdbcType=DOUBLE},
       sale_price = #{salePrice,jdbcType=DOUBLE},
+      wholesale_price = #{wholesalePrice,jdbcType=DOUBLE},
       sale_status = #{saleStatus,jdbcType=TINYINT},
       cdate = #{cdate,jdbcType=TIMESTAMP},
       mdate = #{mdate,jdbcType=TIMESTAMP},
