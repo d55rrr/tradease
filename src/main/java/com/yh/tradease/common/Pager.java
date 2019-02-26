@@ -44,7 +44,7 @@ public  class Pager<T>  implements Serializable {
 	public void setPageSize(Integer pageSize) {
 		if(currentPage!=null&&pageSize!=null){
 			offset = pageSize*(currentPage-1);
-			limit = pageSize*currentPage;
+			limit = pageSize;
 		}
 		this.pageSize = pageSize;
 	}
@@ -75,7 +75,7 @@ public  class Pager<T>  implements Serializable {
 	public void setCurrentPage(Integer currentPage) {
 		if(pageSize!=null&&currentPage!=null){
 			offset = pageSize*(currentPage-1);
-			limit = pageSize*currentPage;
+			limit = pageSize;
 		}
 		this.currentPage = currentPage;
 	}
