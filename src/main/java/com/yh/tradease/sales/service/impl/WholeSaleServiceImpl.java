@@ -5,11 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import com.yh.tradease.common.Constant;
 import com.yh.tradease.common.Pager;
 import com.yh.tradease.common.ResponseData;
 import com.yh.tradease.exception.BusinessException;
@@ -21,6 +24,7 @@ import com.yh.tradease.sales.entity.SaleRecord;
 import com.yh.tradease.sales.entity.SaleRecordExample;
 import com.yh.tradease.sales.entity.WholesaleRecord;
 import com.yh.tradease.sales.entity.WholesaleRecordExample;
+import com.yh.tradease.sales.entity.WholesaleRecordExample.Criteria;
 import com.yh.tradease.sales.service.WholeSaleService;
 @Service
 @Transactional(readOnly = true)
@@ -61,21 +65,25 @@ public class WholeSaleServiceImpl implements WholeSaleService{
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public ResponseData delete(Integer id) {
-		WholesaleRecord record = new WholesaleRecord();
-		record.setFlag((byte) 2);
-		record.setMdate(new Date());
-		int result = wholesaleRecordMapper.updateByPrimaryKeySelective(record);
-		OrderDetailExample orderExample = new OrderDetailExample();
-		orderExample.createCriteria().andOrderIdEqualTo(record.getId()).andFlagEqualTo((byte) 1);
-		List<OrderDetail> exists = orderDetailMapper.selectByExample(orderExample);
-		if(!CollectionUtils.isEmpty(exists)){
-			exists.forEach(item->{
-				item.setFlag((byte) 2);
-				orderDetailMapper.updateByPrimaryKey(item);
-			});
-		}
-		if(result>0){
+	public ResponseData delete(Integer[] ids) {
+		int result = 0;
+		for(int i=0;i<ids.length;i++){
+			WholesaleRecord record = new WholesaleRecord();
+			record.setFlag((byte) 2);
+			record.setMdate(new Date());
+			record.setId(ids[i]);
+			result += wholesaleRecordMapper.updateByPrimaryKeySelective(record);
+			OrderDetailExample orderExample = new OrderDetailExample();
+			orderExample.createCriteria().andOrderIdEqualTo(record.getId()).andFlagEqualTo((byte) 1);
+			List<OrderDetail> exists = orderDetailMapper.selectByExample(orderExample);
+			if(!CollectionUtils.isEmpty(exists)){
+				exists.forEach(item->{
+					item.setFlag((byte) 2);
+					orderDetailMapper.updateByPrimaryKey(item);
+				});
+			}
+		}	
+		if(result==ids.length){
 			return ResponseData.success();
 		}else{
 			return ResponseData.error();
@@ -104,7 +112,7 @@ public class WholeSaleServiceImpl implements WholeSaleService{
 					if(record.getOrderDetails().get(i).getId().equals(exists.get(j).getId())){
 						record.getOrderDetails().get(i).setMdate(new Date());
 						toUpdate.add(record.getOrderDetails().get(i));
-						toDelete.add(record.getOrderDetails().get(i));
+						toDelete.add(exists.get(j));
 					}
 				}
 			}
@@ -144,10 +152,31 @@ public class WholeSaleServiceImpl implements WholeSaleService{
 		WholesaleRecordExample param = new WholesaleRecordExample();
 		param.setOffset(page.getOffset());
 		param.setLimit(page.getLimit());
+		Criteria criteria = param.createCriteria();
+		if(record.getBuyer()!=null){
+			criteria.andBuyerEqualTo(record.getBuyer());
+		}
+		if(!StringUtils.isEmpty(record.getName())){
+			criteria.andNameLike("%"+record.getName()+"%");
+		}
+		if(record.getOrderTime()!=null){
+			criteria.andOrderTimeBetween(record.getOrderTime(),DateUtils.addSeconds(record.getOrderTime(), Constant.LESS_THAN_ONE_DAY_SECONDS));
+		}
+		if(record.getDeliveryTime()!=null){
+			criteria.andDeliveryTimeBetween(record.getDeliveryTime(),DateUtils.addSeconds(record.getDeliveryTime(), Constant.LESS_THAN_ONE_DAY_SECONDS));
+		}
+		if(record.getOrderStatus()!=null){
+			criteria.andOrderStatusEqualTo(record.getOrderStatus());
+		}
+		if(record.getDeliveryStatus()!=null){
+			criteria.andDeliveryStatusEqualTo(record.getDeliveryStatus());
+		}
+		criteria.andFlagEqualTo((byte) 1);
+		long total = wholesaleRecordMapper.countByExample(param);
+		page.setTotal((int) total);
 		List<WholesaleRecord> result = wholesaleRecordMapper.selectByExample(param);
-		Pager<WholesaleRecord> resultPage = new Pager<WholesaleRecord>();
-		resultPage.setDatas(result);
-		return new ResponseData(resultPage);
+		page.setDatas(result);
+		return new ResponseData(page);
 	}
 
 	@Override

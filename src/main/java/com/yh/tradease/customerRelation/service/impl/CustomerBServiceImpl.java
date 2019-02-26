@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.yh.tradease.common.Pager;
 import com.yh.tradease.common.ResponseData;
@@ -16,6 +17,7 @@ import com.yh.tradease.customerRelation.dao.CustomerBMapper;
 import com.yh.tradease.customerRelation.dao.CustomerbContactsMapper;
 import com.yh.tradease.customerRelation.entity.CustomerB;
 import com.yh.tradease.customerRelation.entity.CustomerBExample;
+import com.yh.tradease.customerRelation.entity.CustomerBExample.Criteria;
 import com.yh.tradease.customerRelation.entity.CustomerbContacts;
 import com.yh.tradease.customerRelation.entity.CustomerbContactsExample;
 import com.yh.tradease.customerRelation.service.CustomerBService;
@@ -115,7 +117,17 @@ public class CustomerBServiceImpl implements CustomerBService{
 		CustomerBExample param = new CustomerBExample();
 		param.setLimit(page.getLimit());
 		param.setOffset(page.getOffset());
-		param.createCriteria().andFlagEqualTo((byte) 1);
+		Criteria criteria = param.createCriteria();
+		criteria.andFlagEqualTo((byte) 1);
+		if(!StringUtils.isEmpty(customerB.getName())){
+			criteria.andNameLike("%"+customerB.getName()+"%");
+		}
+		if(customerB.getLevel()!=null){
+			criteria.andLevelEqualTo(customerB.getLevel());
+		}
+		if(!StringUtils.isEmpty(customerB.getRepresentative())){
+			criteria.andRepresentativeLike("%"+customerB.getRepresentative()+"%");
+		}
 		long count = customerBMapper.countByExample(param);
 		page.setTotal((int) count);
 		List<CustomerB> results = customerBMapper.selectByExample(param);
@@ -127,7 +139,11 @@ public class CustomerBServiceImpl implements CustomerBService{
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public ResponseData delete(Integer[] ids) {
 		for(Integer id:ids){
-			int result = customerBMapper.deleteByPrimaryKey(id);
+			CustomerB cparam = new CustomerB();
+			cparam.setId(id);
+			cparam.setMdate(new Date());
+			cparam.setFlag((byte) 2);
+			int result = customerBMapper.updateByPrimaryKeySelective(cparam);
 			if(result>0){
 				CustomerbContactsExample param = new CustomerbContactsExample();
 				param.createCriteria().andFlagEqualTo((byte) 1).andCustomerIdEqualTo(id);

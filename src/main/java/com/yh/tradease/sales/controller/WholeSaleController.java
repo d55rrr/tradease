@@ -40,9 +40,9 @@ public class WholeSaleController {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public ResponseData delete(Integer id){
+	public ResponseData delete(Integer[] ids){
 		
-		return wholeSalesService.delete(id);
+		return wholeSalesService.delete(ids);
 	}
 	
 	/**

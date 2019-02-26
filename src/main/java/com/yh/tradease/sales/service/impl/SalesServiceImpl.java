@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yh.tradease.common.Constant;
 import com.yh.tradease.common.Pager;
 import com.yh.tradease.common.ResponseData;
 import com.yh.tradease.exception.BusinessException;
@@ -21,6 +24,7 @@ import com.yh.tradease.sales.entity.OrderDetail;
 import com.yh.tradease.sales.entity.OrderDetailExample;
 import com.yh.tradease.sales.entity.SaleRecord;
 import com.yh.tradease.sales.entity.SaleRecordExample;
+import com.yh.tradease.sales.entity.SaleRecordExample.Criteria;
 import com.yh.tradease.sales.service.SalesService;
 
 @Service
@@ -40,10 +44,28 @@ public class SalesServiceImpl implements SalesService{
 		SaleRecordExample param = new SaleRecordExample();
 		param.setOffset(page.getOffset());
 		param.setLimit(page.getLimit());
+		Criteria criteria  = param.createCriteria();
+		if(!StringUtils.isEmpty(record.getBuyer())){
+			criteria.andBuyerLike("%"+record.getBuyer()+"%");
+		}
+		if(record.getBuyTime()!=null){
+			criteria.andBuyTimeBetween(record.getBuyTime(), DateUtils.addSeconds(record.getBuyTime(), Constant.LESS_THAN_ONE_DAY_SECONDS));
+		}
+		if(record.getDeliveryTime()!=null){
+			criteria.andDeliveryTimeBetween(record.getDeliveryTime(), DateUtils.addSeconds(record.getDeliveryTime(), Constant.LESS_THAN_ONE_DAY_SECONDS));
+		}
+		if(record.getPayStatus()!=null){
+			criteria.andPayStatusEqualTo(record.getPayStatus());
+		}
+		if(record.getServiceStatus()!=null){
+			criteria.andServiceStatusEqualTo(record.getServiceStatus());
+		}
+		criteria.andFlagEqualTo((byte) 1);
+		long count = saleRecordMapper.countByExample(param);
 		List<SaleRecord> result = saleRecordMapper.selectByExample(param);
-		Pager<SaleRecord> resultPage = new Pager<SaleRecord>();
-		resultPage.setDatas(result);
-		return new ResponseData(resultPage);
+		page.setTotal((int) count);
+		page.setDatas(result);
+		return new ResponseData(page);
 	}
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -129,19 +151,25 @@ public class SalesServiceImpl implements SalesService{
 	}
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public ResponseData delete(SaleRecord record) {
-		record.setFlag((byte) 2);
-		int result = saleRecordMapper.updateByPrimaryKeySelective(record);
-		OrderDetailExample orderExample = new OrderDetailExample();
-		orderExample.createCriteria().andOrderIdEqualTo(record.getId()).andFlagEqualTo((byte) 1);
-		List<OrderDetail> exists = orderDetailMapper.selectByExample(orderExample);
-		if(!CollectionUtils.isEmpty(exists)){
-			exists.forEach(item->{
-				item.setFlag((byte) 2);
-				orderDetailMapper.updateByPrimaryKey(item);
-			});
+	public ResponseData delete(Integer[] ids) {
+		int result = 0 ;
+		for(int i=0;i<ids.length;i++){
+			SaleRecord record = new SaleRecord();
+			record.setFlag((byte) 2);
+			record.setId(ids[i]);
+			result += saleRecordMapper.updateByPrimaryKeySelective(record);
+			OrderDetailExample orderExample = new OrderDetailExample();
+			orderExample.createCriteria().andOrderIdEqualTo(record.getId()).andFlagEqualTo((byte) 1);
+			List<OrderDetail> exists = orderDetailMapper.selectByExample(orderExample);
+			if(!CollectionUtils.isEmpty(exists)){
+				exists.forEach(item->{
+					item.setFlag((byte) 2);
+					orderDetailMapper.updateByPrimaryKey(item);
+				});
+			}
 		}
-		if(result>0){
+		
+		if(result==ids.length){
 			return ResponseData.success();
 		}else{
 			return ResponseData.error();

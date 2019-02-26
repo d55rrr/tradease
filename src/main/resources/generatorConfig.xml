@@ -8,10 +8,10 @@
         <property name="suppressAllComments" value="true" />
 	</commentGenerator>
     <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/tradease" driverClass="com.mysql.jdbc.Driver" password="root" userId="root" />
-    <javaModelGenerator targetPackage="com.yh.tradease.stock.entity" targetProject="tradease" />
-    <sqlMapGenerator targetPackage="com.yh.tradease.stock.entity" targetProject="tradease" />
-    <javaClientGenerator targetPackage="com.yh.tradease.stock.dao" targetProject="tradease" type="XMLMAPPER" />
-    <table tableName="out_stock_detail" >
+    <javaModelGenerator targetPackage="com.yh.tradease.product.entity" targetProject="tradease" />
+    <sqlMapGenerator targetPackage="com.yh.tradease.product.entity" targetProject="tradease" />
+    <javaClientGenerator targetPackage="com.yh.tradease.product.dao" targetProject="tradease" type="XMLMAPPER" />
+    <table tableName="product" >
     	<generatedKey column="id" sqlStatement="MySql" identity="true"/>
       <!-- <columnOverride column="???" property="???" /> -->
     </table>

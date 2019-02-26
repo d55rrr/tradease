@@ -32,7 +32,7 @@
     </resultMap>
 
 	<select id="getByGroupId"  parameterType="int" resultMap="menuMap">
-		select * from sys_menu sm inner join (select menu_id from sys_group_menu where group_id = #{groupId} ) sgm on  sm.id= sgm.menu_id
+		select * from sys_menu sm  inner join (select menu_id from sys_group_menu where group_id = #{groupId} ) sgm on  sm.id= sgm.menu_id where sm.flag=1 
 	</select>	
 	
 	<select id="getByIds"  resultMap="menuMap">
@@ -41,6 +41,7 @@
             open="(" close=")" separator=",">
             #{subid}
         </foreach>
+        and flag=1
 	</select>
 	<insert id="add" parameterType="com.yh.tradease.system.entity.SysMenu">
 		insert into sys_menu
@@ -91,15 +92,15 @@
 		delete from sys_menu where id = #{value}
 	</delete>
 	<select id="queryMenus" parameterType="int" resultMap="menuMap">
-		select * from sys_menu where type=#{type} order by order_num asc
+		select * from sys_menu where type=#{type} and flag=1 order by order_num asc 
 	</select>
 	<select id="queryAllMenu" resultMap="menuMap"> 
-		select * from sys_menu
+		select * from sys_menu where flag=1
 	</select>
 	<select id="queryMenu" resultMap="menuMap" parameterType="int">
-		select * from sys_menu where id=#{id}
+		select * from sys_menu where id=#{id} and flag=1
 	</select>
 	<select id="findTree" resultMap="menuTree" parameterType="int">
-		select * from sys_menu where pid = #{id}
+		select * from sys_menu where pid = #{id} and flag=1
 	</select>
 </mapper>

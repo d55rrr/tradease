@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.yh.tradease.common.Pager;
 import com.yh.tradease.common.ResponseData;
@@ -25,10 +26,28 @@ public class ProductServiceImpl implements ProductService{
 		ProductExample param = new ProductExample();
 		param.setOffset(page.getOffset());
 		param.setLimit(page.getLimit());
+		Criteria criteria = param.createCriteria();
+		if(product.getType()!=null){
+			criteria.andTypeEqualTo(product.getType());
+		}
+		if(!StringUtils.isEmpty(product.getName())){
+			criteria.andNameLike("%"+product.getName()+"%");
+		}
+		if(product.getBrandId()!=null){
+			criteria.andBrandIdEqualTo(product.getBrandId());
+		}
+		if(!StringUtils.isEmpty(product.getProductCode())){
+			criteria.andProductCodeLike("%"+product.getBrandId()+"%");
+		}
+		if(product.getSaleStatus()!=null){
+			criteria.andSaleStatusEqualTo(product.getSaleStatus());
+		}
+		criteria.andFlagEqualTo((byte) 1);
+		long total = productMapper.countByExample(param);
 		List<Product> result = productMapper.selectByExample(param);
-		Pager<Product> resultPage = new Pager<Product>();
-		resultPage.setDatas(result);
-		return new ResponseData(resultPage);
+		page.setTotal((int) total);
+		page.setDatas(result);
+		return new ResponseData(page);
 	}
 
 	@Override
@@ -55,13 +74,16 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public ResponseData delete(Integer id) {
-		Product param = new Product();
-		param.setId(id);
-		param.setFlag((byte)2);
-		param.setMdate(new Date());
-		int result = productMapper.updateByPrimaryKeySelective(param);
-		if(result>0){
+	public ResponseData delete(Integer[] ids) {
+		int result = 0;
+		for(int i=0;i<ids.length;i++){
+			Product param = new Product();
+			param.setId(ids[i]);
+			param.setFlag((byte)2);
+			param.setMdate(new Date());
+			result += productMapper.updateByPrimaryKeySelective(param);
+		}
+		if(result==ids.length){
 			return ResponseData.success();
 		}else{
 			return ResponseData.error();

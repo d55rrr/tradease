@@ -21,7 +21,7 @@ public interface ProductService {
 
 	ResponseData update(Product product);
 
-	ResponseData delete(Integer id);
+	ResponseData delete(Integer[] ids);
 	/**
 	 * 
 	 * @Title: list   

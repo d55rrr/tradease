@@ -28,10 +28,10 @@ public interface SalesService {
 	ResponseData update(SaleRecord record);
 	/**
 	 * 删除
-	 * @param record
+	 * @param ids
 	 * @return
 	 */
-	ResponseData delete(SaleRecord record);
+	ResponseData delete(Integer[] ids);
 	/**
 	 * 
 	 * @Title: find   

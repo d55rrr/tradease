@@ -21,7 +21,7 @@ public class SysUserVo implements Serializable{
 	
 	private Integer sex;
 	
-	private String occupy;
+	private Integer occupy;
 	
 	private Integer flag;
 	
@@ -75,11 +75,11 @@ public class SysUserVo implements Serializable{
 		this.sex = sex;
 	}
 
-	public String getOccupy() {
+	public Integer getOccupy() {
 		return occupy;
 	}
 
-	public void setOccupy(String occupy) {
+	public void setOccupy(Integer occupy) {
 		this.occupy = occupy;
 	}
 

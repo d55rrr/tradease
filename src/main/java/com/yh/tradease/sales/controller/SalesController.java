@@ -64,9 +64,9 @@ public class SalesController {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public ResponseData delete(SaleRecord record){
+	public ResponseData delete(Integer[] ids){
 		
-		return salesService.delete(record);
+		return salesService.delete(ids);
 	}
 	/**
 	 * 

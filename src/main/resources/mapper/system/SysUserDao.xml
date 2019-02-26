@@ -21,9 +21,9 @@
 
 	<select id="queryUserList"  resultMap="userMap"  parameterType="com.yh.tradease.common.Pager">
 		select * from sys_user where 1=1 
-			<if test="param.userName != null and param.userName != ''">and `user_name` = #{param.userName} </if>
+			<if test="param.userName != null and param.userName != ''">and `user_name` like CONCAT('%',concat(#{param.userName},'%')) </if>
 			<if test="param.account != null and param.account != ''">and `account` = #{param.account} </if>
-			<if test="param.phone != null and param.phone != '' ">and `phone` = #{param.phone}</if>
+			<if test="param.phone != null and param.phone != '' ">and `phone` like CONCAT('%',concat( #{param.phone},'%'))</if>
 			<if test="param.sex != null">and `sex` = #{param.sex}</if>
 			<if test="param.occupy != null">and `occupy` = #{param.occupy}</if>
 			<if test="param.editPass != null">and `edit_pass` = #{param.editPass}</if>

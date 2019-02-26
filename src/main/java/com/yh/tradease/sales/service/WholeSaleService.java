@@ -16,7 +16,7 @@ public interface WholeSaleService {
 	 * @param id
 	 * @return
 	 */
-	ResponseData delete(Integer id);
+	ResponseData delete(Integer[] ids);
 	/**
 	 * 更新
 	 * @param record

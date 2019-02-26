@@ -84,9 +84,9 @@ public class ProductController {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public ResponseData delete(Integer id){
+	public ResponseData delete(Integer[] ids){
 		
-		return productService.delete(id);
+		return productService.delete(ids);
 	}
 	/**
 	 * 

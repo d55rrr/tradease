@@ -445,62 +445,62 @@ public class WholesaleRecordExample {
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerEqualTo(String value) {
-			addCriterion("buyer =", value, "buyer");
+		public Criteria andBuyerEqualTo(Integer integer) {
+			addCriterion("buyer =", integer, "buyer");
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerNotEqualTo(String value) {
+		public Criteria andBuyerNotEqualTo(Integer value) {
 			addCriterion("buyer <>", value, "buyer");
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerGreaterThan(String value) {
+		public Criteria andBuyerGreaterThan(Integer value) {
 			addCriterion("buyer >", value, "buyer");
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerGreaterThanOrEqualTo(String value) {
+		public Criteria andBuyerGreaterThanOrEqualTo(Integer value) {
 			addCriterion("buyer >=", value, "buyer");
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerLessThan(String value) {
+		public Criteria andBuyerLessThan(Integer value) {
 			addCriterion("buyer <", value, "buyer");
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerLessThanOrEqualTo(String value) {
+		public Criteria andBuyerLessThanOrEqualTo(Integer value) {
 			addCriterion("buyer <=", value, "buyer");
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerLike(String value) {
+		public Criteria andBuyerLike(Integer value) {
 			addCriterion("buyer like", value, "buyer");
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerNotLike(String value) {
+		public Criteria andBuyerNotLike(Integer value) {
 			addCriterion("buyer not like", value, "buyer");
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerIn(List<String> values) {
+		public Criteria andBuyerIn(List<Integer> values) {
 			addCriterion("buyer in", values, "buyer");
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerNotIn(List<String> values) {
+		public Criteria andBuyerNotIn(List<Integer> values) {
 			addCriterion("buyer not in", values, "buyer");
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerBetween(String value1, String value2) {
+		public Criteria andBuyerBetween(Integer value1, Integer value2) {
 			addCriterion("buyer between", value1, value2, "buyer");
 			return (Criteria) this;
 		}
 
-		public Criteria andBuyerNotBetween(String value1, String value2) {
+		public Criteria andBuyerNotBetween(Integer value1, Integer value2) {
 			addCriterion("buyer not between", value1, value2, "buyer");
 			return (Criteria) this;
 		}

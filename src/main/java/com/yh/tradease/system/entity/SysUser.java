@@ -22,7 +22,7 @@ public class SysUser implements Serializable{
 	
 	private Integer sex;
 	
-	private String occupy;
+	private Integer occupy;
 	
 	private Date cdate;
 	
@@ -80,11 +80,11 @@ public class SysUser implements Serializable{
 		this.sex = sex;
 	}
 
-	public String getOccupy() {
+	public Integer getOccupy() {
 		return occupy;
 	}
 
-	public void setOccupy(String occupy) {
+	public void setOccupy(Integer occupy) {
 		this.occupy = occupy;
 	}
 

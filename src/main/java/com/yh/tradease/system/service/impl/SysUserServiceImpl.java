@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yh.tradease.common.Pager;
+import com.yh.tradease.common.ResponseData;
 import com.yh.tradease.system.dao.SysUserDao;
 import com.yh.tradease.system.entity.SysUser;
 import com.yh.tradease.system.service.SysUserService;
@@ -21,6 +22,7 @@ public class SysUserServiceImpl implements SysUserService{
 	public Pager queryUserList(SysUserVo user,Pager page) {
 		SysUser param = new SysUser();
 		BeanUtils.copyProperties(user, param);
+		param.setFlag(1);
 		page.setParam(param);
 		List<SysUser> users = sysUserDao.queryUserList(page);
 		int total = sysUserDao.queryCount(param);
@@ -49,8 +51,18 @@ public class SysUserServiceImpl implements SysUserService{
 	}
 	@Override
 	public int deleteUser(Integer[] param) {
-		
-		return sysUserDao.deleteUser(param);
+		int result = 0;
+		for(int i=0;i<param.length;i++){
+			SysUser userEntity  = new SysUser();
+			userEntity.setFlag(2);
+			userEntity.setId(param[i]);
+			result += sysUserDao.updateUser(userEntity);
+		}
+		if(result==param.length){
+			return param.length;
+		}else{
+			return 0;
+		}
 	}
 	@Override
 	public int updatepwd(SysUserVo user) {
